@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "plugins": [
+      [
+        "expo-build-properties", 
+        {
+        "android": 
+                {
+                  "usesCleartextTraffic": true
+                }
+        }
+      ]
+    ],
+    "name": "ICTAK_Event",
+    "slug": "Event_app_2023",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/iconict.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/iconict.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/ict.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.abinsebastian09.Event_app_2023"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f692b524-9e54-4c4c-89c7-473d442193e0"
+      }
+    }
+  }
+}
