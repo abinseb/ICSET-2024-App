@@ -101,7 +101,7 @@ export const tableList=()=>{
 export const create_Offline_table=()=>{
     db.transaction(tx=>{
         tx.executeSql(
-            'CREATE TABLE IF NOT EXISTS offline_table(_id TEXT);',
+            'CREATE TABLE IF NOT EXISTS offline_table(_id TEXT,status BOOLEAN);',
             [],
             ()=>console.log("offline_table created"),
             (error)=>console.log(error),

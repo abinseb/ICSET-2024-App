@@ -8,7 +8,7 @@ export const insert_To_UserTable=async()=>{
     try{
         const userData = await user_data_load();
 
-        console.log("user data------------------------>>>>>",userData.length);
+        console.log("user data------------------------>>>>>",userData);
         
         await new Promise((resolve, reject) => {
             db.transaction((tx) => {
@@ -21,7 +21,7 @@ export const insert_To_UserTable=async()=>{
                             user.lastName,
                             user.mobile.toString(),
                             user.email,
-                            user.institutionId._id,
+                            user.institutionId._id || null,
                             user.type,
                             user.time || 0,
                             'College of Vadakara',
@@ -49,13 +49,13 @@ export const insert_To_UserTable=async()=>{
 
 // offline data insert
 
-export const offline_dataInsert=(userid,workshop)=>{
+export const offline_dataInsert=(userid,value)=>{
     try{
         db.transaction((tx)=>{
             tx.executeSql(
-                'INSERT INTO offline_table (_id) VALUES (?);',
-                [userid],
-                ()=>console.log("Insert id and workshop offlinetble"),
+                'INSERT INTO offline_table (_id , status) VALUES (?,?);',
+                [userid , value],
+                ()=>console.log("Insert id and status offlinetable"),
                 (error)=> console.error("Error in insertion",error)
             )
         })
@@ -71,15 +71,15 @@ export const insert_group_table=async()=>{
         const groupData = await Group_list_load();
 
        await db.transaction((tx)=>{
-           groupData.forEach((group)=>{
+           groupData.data.institutions.forEach((group)=>{
             tx.executeSql(
                 'INSERT INTO group_table (_id,name) VALUES (?,?);',
                 [
-                    group._id,
-                    group.name
+                    group.institution._id,
+                    group.institution.name
                 ],
                 ()=>console.log("insert data to group table"),
-                (err)=> console.log("error in inserting",err)
+                (err)=> console.log("error in inserting---group",err)
             )
            })
         })

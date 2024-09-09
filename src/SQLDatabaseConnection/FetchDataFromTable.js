@@ -35,31 +35,31 @@ export const eventDataFetch = async () => {
   };
 
 //   workshop data fetch
-export const workshopDataFetch = async () => {
-    return new Promise((resolve, reject) => {
-        db.transaction(
-            (tx) => {
-                tx.executeSql(
-                    'SELECT id,title,icon FROM workshop_table ;',
-                    [],
-                    (_, { rows }) => {
-                        const workshopData = rows._array;
-                        if (workshopData.length > 0) {
-                            // console.log("wwww", workshopData);
-                            resolve(workshopData); // Resolve the promise with the workshop data
-                        } else {
-                            resolve([]); // Resolve with an empty array if no workshops are found
-                        }
-                    }
-                );
-            },
-            (error) => {
-                console.error("Error in database transaction:", error);
-                reject(error); // Reject the promise in case of an error
-            }
-        );
-    });
-};
+// export const workshopDataFetch = async () => {
+//     return new Promise((resolve, reject) => {
+//         db.transaction(
+//             (tx) => {
+//                 tx.executeSql(
+//                     'SELECT id,title,icon FROM workshop_table ;',
+//                     [],
+//                     (_, { rows }) => {
+//                         const workshopData = rows._array;
+//                         if (workshopData.length > 0) {
+//                             // console.log("wwww", workshopData);
+//                             resolve(workshopData); // Resolve the promise with the workshop data
+//                         } else {
+//                             resolve([]); // Resolve with an empty array if no workshops are found
+//                         }
+//                     }
+//                 );
+//             },
+//             (error) => {
+//                 console.error("Error in database transaction:", error);
+//                 reject(error); // Reject the promise in case of an error
+//             }
+//         );
+//     });
+// };
 
 
 // usertable data
@@ -170,13 +170,13 @@ export const group_dataFrom_groupTable = () => {
     });
   };
 
-  export const user_data_basedON_group = (groupid,workshopname) => {
+  export const user_data_basedON_group = (groupid,status) => {
     return new Promise((resolve, reject) => {
       try {
         db.transaction((tx) => {
           tx.executeSql(
-            `SELECT * FROM user_table WHERE groupid = ? AND ${workshopname} = ? ;`,
-            [groupid,"1.0"],
+            `SELECT * FROM user_table WHERE groupid = ? AND verification = ?;`,
+            [groupid ,status],
             (_, { rows }) => {
               if (rows.length > 0) {
                 const data = rows._array
@@ -201,13 +201,13 @@ export const group_dataFrom_groupTable = () => {
   };
 
   // verified user data based on group
-  export const Verified_user_data_basedON_group = (groupid,workshopname) => {
+  export const Verified_user_data_basedON_group = (groupid,status) => {
     return new Promise((resolve, reject) => {
       try {
         db.transaction((tx) => {
           tx.executeSql(
-            `SELECT * FROM user_table WHERE groupid = ? AND ${workshopname} = ? ;`,
-            [groupid,"2.0"],
+            `SELECT * FROM user_table WHERE groupid = ? AND attendanceStatus = ? ;`,
+            [groupid,status],
             (_, { rows }) => {
               if (rows.length > 0) {
                 const data = rows._array

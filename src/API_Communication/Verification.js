@@ -12,7 +12,7 @@ const eventid = eventID();
 
 export const userVerification=async(verification,regid)=>{
     const event_id = await getEventId();
-    console.log("parms----",verification,regid,event_id, "regid",regid);
+    console.log("parms----------->>>",verification,regid,event_id, "regid",regid);
     try {
         const response = await axios.post(`${url}/api/volunteer/event-entry/attendee-verify/${event_id}/${regid}`, {
             "status":verification
@@ -61,14 +61,15 @@ export const unverify_user=async(userid,worshopname,token)=>{
 export const sync_OfflineData_verification=async(offlineData)=>{
     const event_id = await getEventId();
     try{
-      const response = await axios.post(`${url}/volunter/sync`,{
-            "event" : event_id,
+      const response = await axios.post(`${url}/api/volunteer/event-entry/db/syn-offline`,{
+            "eventid" : event_id,
             "data" :offlineData,
         });
         console.log(response.data);
-        return response.data;
+        return response;
     }
     catch(errr){
         console.log("Error in syncing",errr);
+        return errr;
     }
 }

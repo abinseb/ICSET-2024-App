@@ -27,15 +27,15 @@ export const update_user_Table =(userData  )=>{
     }
 }
 
-export const userVerification_Offline=(userid,workshop)=>{
+export const userVerification_Offline=(userid,status)=>{
+    console.log("userid",userid,"status",status);
     try{
         db.transaction((tx)=>{
             tx.executeSql(
-                `UPDATE user_table SET verification = ? WHERE _id = ? ;`,
-                [true,userid],
+                `UPDATE user_table SET attendanceStatus = ? WHERE _id = ? ;`,
+                [status,userid],
                 ()=>{
-                    offline_dataInsert(userid);
-                    alert("Verified");
+                    offline_dataInsert(userid , status);
                     console.log("userverified_offline");
                     },
                 (error)=>console.log("verificationError",error)
@@ -52,10 +52,10 @@ export const unverification_Offline=(userid,workshop)=>{
     try{
         db.transaction((tx)=>{
             tx.executeSql(
-                `UPDATE user_table SET ${workshop} = ? WHERE id = ? ;`,
-                ['1.0',userid],
+                `UPDATE user_table SET verification = ? WHERE _id = ? ;`,
+                [false,userid],
                 ()=>{
-                   
+                    offline_dataInsert(userid,false);
                     console.log("unverified_offline");
                     },
                 (error)=>console.log("unverificationError",error)
@@ -87,6 +87,6 @@ export const update_local_Table=(updatedData,workshop)=>{
         })
     }
     catch(error){
-
+        console.log("transaction error",error)
     }
 }

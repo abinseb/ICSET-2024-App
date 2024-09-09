@@ -55,31 +55,32 @@ export const user_data_based_on_id =async(userId)=>{
 export const Group_list_load=async()=>{
   const evnid = await getEventId();
     try{
-        const response = await axios.get(`${url}/volunter/get/group/${evnid}`)
-        const grouplist = response.data.group;
-        console.log("__________list",grouplist);
-        return await grouplist;
+        const response = await axios.get(`${url}/api/volunteer/event-entry/get/institutions/${evnid}`)
+        console.log("__________list",response);
+        return response;
       
     }
     catch(error){
       console.error("Error in fetching dataa", error);
-      throw error;
+      return error;
     }
 }
 
 // localhost:3000/volunter/getusergroup/6549f0527a62f323d043db53/655c3ddc1efe562dd9903413/oracle
 // list the students based on the groups
-export const List_userbasedOn_group=async(groupId,workshopName)=>{
+export const List_userbasedOn_group=async(groupId,status)=>{
   const evnid = await getEventId();
   try{
-    console.log("grpid",groupId,"workshp",workshopName,"________",`${url}/volunter/getusergroup/${eventId._j}/${groupId}/${workshopName}`);
-      const response = await axios.get(`${url}/volunter/getusergroup/${evnid}/${groupId}/${workshopName}`)
-      const groupUser = response.data;
-      console.log("list of user_basedOn group",groupUser);
-      return await groupUser.data;
+      const response = await axios.post(`${url}/api/volunteer/event-entry/get/user/event/org`,{
+        "eventid":evnid,
+        "institutionid":groupId,
+        "attendanceStatus":status
+      })
+      return response;
   }
   catch(error){
     console.error("Error in listing",error);
+    return error;
   }
 }
 

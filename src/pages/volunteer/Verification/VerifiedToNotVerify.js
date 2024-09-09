@@ -3,10 +3,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity,ToastAndroid} from "react-native";
 import { Card} from "react-native-paper";
 import { useSelector } from "react-redux";
-import { list_verifiedUserData_basedOngroup } from "../../../API_Communication/Load_data";
+import { List_userbasedOn_group, list_verifiedUserData_basedOngroup } from "../../../API_Communication/Load_data";
 import { Verified_user_data_basedON_group } from "../../../SQLDatabaseConnection/FetchDataFromTable";
-import { unverify_user } from "../../../API_Communication/Verification";
-import { unverification_Offline } from "../../../SQLDatabaseConnection/Update_Table";
+import { unverify_user, userVerification } from "../../../API_Communication/Verification";
+import { unverification_Offline, userVerification_Offline } from "../../../SQLDatabaseConnection/Update_Table";
 import { useFocusEffect } from "@react-navigation/native";
 import BoxText from "../../../components/BoxText";
 
@@ -20,76 +20,64 @@ const VerifiedToNotVerify = ({route,navigation}) => {
 // const token = useSelector((state) => state.auth.token);
 const token ='edee';
 
- const [userdata,setUserData] = useState([
-    {
-        _id: 0,
-        name: 'Srikanth',
-        email: 'srikanth@123',
-        mobile: '1234567890',
-        
-    },{
-        _id: 1,
-        name: 'Srikanth',
-        email: 'srikanth@123',
-        mobile: '1234567890',
-    }
-    ,{
-        _id: 2,
-        name: 'Srikanth',
-        email: 'srikanth@123',
-        mobile: '1234567890',
-    },{
-        _id: 3,
-        name: 'Srikanth',
-        email: 'srikanth@123',
-        mobile: '1234567890',
-    }
- ]);
+ const [userdata,setUserData] = useState([]);
 
  const [refresh, setRefresh] = useState(false);
 
 useFocusEffect(
     React.useCallback(()=>{
-        // verifiedUserData();
+        verifiedUserData();
     },[refresh])
 )
 
 
 const verifiedUserData=async()=>{
-    try{
-        const verifiedData = await list_verifiedUserData_basedOngroup(groupid,workshopname);
+        const verifiedData = await List_userbasedOn_group(groupid,true);
     console.log("verified_data_______#####",verifiedData);
-    setUserData(verifiedData || []);
+    if(verifiedData.data){
+        setUserData(verifiedData.data.data|| []);
     }
-    catch(error){
+    else{
         console.error("errorrrr_____________");
-        const verifiedTableData = await Verified_user_data_basedON_group(groupid,workshopname);
-        console.log("verified")
+        const verifiedTableData = await Verified_user_data_basedON_group(groupid,true);
+        console.log("verified-------------->>>>>>")
         setUserData(verifiedTableData || []);
     }
+
 }
 
 // unverify the user data
+//const verification = await userVerification(true,id);
+// console.log("verificationstatus----------------",verification.data);
+//  if(verification.data){
+//      if(verification.data.success === true ){
+//      await setIsChecked(updatedCheckedState);
+//      setRefresh(!refresh);
+   
+// }
 const unverify_user_inGroup=async(userid)=>{
-    try{
-        const unverify = await unverify_user(userid,workshopname,token);
+    
+        const unverify = await userVerification(true,userid);
         console.log("unverify",unverify);
-        if(unverify === true){
-            setRefresh(!refresh);
+        if(unverify.data){
+            if(unverify.data.success === true){
+                setRefresh(!refresh);
+            }
+            // else if(unverify === 403 ){
+            //     alert("Your session has expired due to inactivity. Please log out and log back in to continue using the application.");
+            //     navigationToprofile();
+            // }
+            else{
+               alert("UnVerification Failed");
+            }
         }
-        else if(unverify === 403 ){
-            alert("Your session has expired due to inactivity. Please log out and log back in to continue using the application.");
-            navigationToprofile();
-        }
-        else{
-           alert("UnVerification Failed");
-        }
-    }
-    catch(err){
-        console.log("unverifyyyyFailed",err);
-        await unverification_Offline(userid,workshopname);
+    else{
+        await userVerification_Offline(userid,false);
         await setRefresh(!refresh);
     }
+   
+       
+    
 }
 
 // navigation To profile for logout
@@ -115,7 +103,7 @@ const navigationToprofile=()=>{
                             <Card style={styles.cardStyle} key={index}>
                                 <Card.Content style={styles.cardContentStyle}>
                                     <Image style={styles.imageStyle} source={require('../../../images/user4.png')}></Image>
-                                    <Text style={styles.nameText}>{value.name}</Text>
+                                    <Text style={styles.nameText}>{value.firstName +' '+value.lastName}</Text>
                                     <View style={styles.textView}>
                                         <Text style={styles.txt1}> {value.email}</Text>
                                         <Text style={styles.txt1}> {value.mobile}</Text>
@@ -123,7 +111,7 @@ const navigationToprofile=()=>{
                                         <Text style={styles.verifiedTxt}>Verified</Text>
                                     </View>
                                     <View style={styles.viewCheckBox}>
-                                        <TouchableOpacity onPress={()=>{unverify_user_inGroup(value._id || value.id)}}>
+                                        <TouchableOpacity onPress={()=>{unverify_user_inGroup(value.registrationId || value._id)}}>
                                             <Image source={require('../../../images/cross.jpg')} style={{ height: 17, width: 17 }} />
                                         </TouchableOpacity>
                                     </View>
@@ -215,8 +203,9 @@ const styles = StyleSheet.create({
     },
     verifiedTxt: {
         color: '#2e8b57',
-        alignSelf: 'center',
-        fontSize: 14
+        alignSelf: 'start',
+        fontSize: 14,
+        paddingTop:2
     }
 
 })

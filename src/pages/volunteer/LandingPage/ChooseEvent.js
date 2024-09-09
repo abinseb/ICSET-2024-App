@@ -7,7 +7,7 @@ import {  getUserData, saveEventId } from "../../../AsyncStorage/StoreUserCreden
 
 import { event_Data_Get, user_data_load } from "../../../API_Communication/Load_data";
 import { tableList } from "../../../SQLDatabaseConnection/Create_Table";
-import { insert_To_UserTable } from "../../../SQLDatabaseConnection/Insert_Table";
+import { insert_To_UserTable, insert_group_table } from "../../../SQLDatabaseConnection/Insert_Table";
 
 const ChooseEvent = ({navigation}) => {
   const [eventList, setEventList] = useState([]);
@@ -57,6 +57,7 @@ const ChooseEvent = ({navigation}) => {
         await Promise.all([
          // await user_data_load(eventid),
          await insert_To_UserTable(),
+         await insert_group_table()
         ])
     }
     catch(error){

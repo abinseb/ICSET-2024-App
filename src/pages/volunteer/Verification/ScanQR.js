@@ -63,18 +63,20 @@ const offline_verified_count=async()=>{
         const oflineverifiedData = await offline_verifiedUser_data();
         console.log("offline id ",oflineverifiedData);
         const syncdata = await sync_OfflineData_verification(oflineverifiedData);
-        console.log("offlineData",syncdata.message);
-        if(syncdata.message === "saved"){
-            console.log("synced");
-            await deleteOfflineTable();
-            showToastNotificationOfSuccess();
-           await setrefresh(!refresh);
-
+        console.log("offlineData",syncdata);
+        if(syncdata.data){
+            if(syncdata.data.success === true){
+                console.log("synced");
+                await deleteOfflineTable();
+                showToastNotificationOfSuccess();
+               await setrefresh(!refresh);
+    
+            }
+            
         }
         else{
             showToastNotificationFailer();
         }
-
     }
 
     // message of toast

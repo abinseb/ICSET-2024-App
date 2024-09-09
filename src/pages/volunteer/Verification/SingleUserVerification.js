@@ -91,7 +91,7 @@ function showToastNotificationverification() {
     }
     else{
        alert("offline");
-       userVerification_Offline(qrdata);
+       userVerification_Offline(qrdata,true);
        navigationToScan(screen='ScanQRCode');
     }
 
