@@ -22,7 +22,7 @@ const BulkVerification =({navigation})=>{
       else{
         console.log("you are offline");
         const groupOffline = await group_dataFrom_groupTable();
-        const groupNamesOffline = groupOffline.map(item => ({ id: item.id, name: item.name }));
+        const groupNamesOffline = groupOffline.map(item => ({ id: item._id, name: item.name }));
         setItems(groupNamesOffline);
       }
    

@@ -57,7 +57,7 @@ const verifiedUserData=async()=>{
 // }
 const unverify_user_inGroup=async(userid)=>{
     
-        const unverify = await userVerification(true,userid);
+        const unverify = await userVerification(false,userid);
         console.log("unverify",unverify);
         if(unverify.data){
             if(unverify.data.success === true){

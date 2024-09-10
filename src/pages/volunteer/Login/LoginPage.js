@@ -12,6 +12,7 @@ import { getEventId, getUserData, saveUserData } from "../../../AsyncStorage/Sto
 
 import { useNavigation } from "@react-navigation/native";
 import { Create_user_table, create_Offline_table, create__group_table, tableList } from "../../../SQLDatabaseConnection/Create_Table";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const Login = ({ navigation }) => {
@@ -135,12 +136,43 @@ const Login = ({ navigation }) => {
         ToastAndroid.show("Please Enter a valid username and password", ToastAndroid.SHORT);
     }
 
+      // avoid backnvigation
+  const handleBacknavigation = () => {
+    Alert.alert(
+        "Exit App",
+        "Do you want to exit?",
+        [
+            {
+                text: "No",
+                onPress: () => {
+                    navigation.navigate("Login");
+                },
+                style: 'cancel'
+            },
+            {
+                text: "Yes",
+                onPress: () => {
+                    BackHandler.exitApp();
+                }
+            }
+        ],
+        { cancelable: false }
+    );
+    return true;
+};
 
+useEffect(() => {
+    const backhandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        handleBacknavigation
+    );
+    return () => {
+        backhandler.remove();
+    }
+}, [navigation]);
 
-
-
-    
     return (
+        // <SafeAreaView style={{ flex: 1 }}>
         <KeyboardAwareScrollView contentContainerStyle={styles.container}>
 
             {/* image view container */}
@@ -200,6 +232,7 @@ const Login = ({ navigation }) => {
 
 
         </KeyboardAwareScrollView>
+        // </SafeAreaView>
     )
 }
 

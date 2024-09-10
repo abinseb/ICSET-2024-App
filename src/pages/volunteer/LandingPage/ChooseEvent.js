@@ -8,6 +8,7 @@ import {  getUserData, saveEventId } from "../../../AsyncStorage/StoreUserCreden
 import { event_Data_Get, user_data_load } from "../../../API_Communication/Load_data";
 import { tableList } from "../../../SQLDatabaseConnection/Create_Table";
 import { insert_To_UserTable, insert_group_table } from "../../../SQLDatabaseConnection/Insert_Table";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ChooseEvent = ({navigation}) => {
   const [eventList, setEventList] = useState([]);
@@ -66,43 +67,44 @@ const ChooseEvent = ({navigation}) => {
 
   }
   // avoid backnvigation
-  const handleBacknavigation = () => {
-    Alert.alert(
-        "Exit App",
-        "Do you want to exit?",
-        [
-            {
-                text: "No",
-                onPress: () => {
-                    navigation.navigate("entrypage");
-                },
-                style: 'cancel'
-            },
-            {
-                text: "Yes",
-                onPress: () => {
-                    BackHandler.exitApp();
-                }
-            }
-        ],
-        { cancelable: false }
-    );
-    return true;
-};
+//   const handleBacknavigation = () => {
+//     Alert.alert(
+//         "Exit App",
+//         "Do you want to exit?",
+//         [
+//             {
+//                 text: "No",
+//                 onPress: () => {
+//                     navigation.navigate("entrypage");
+//                 },
+//                 style: 'cancel'
+//             },
+//             {
+//                 text: "Yes",
+//                 onPress: () => {
+//                     BackHandler.exitApp();
+//                 }
+//             }
+//         ],
+//         { cancelable: false }
+//     );
+//     return true;
+// };
 
-useEffect(() => {
-    const backhandler = BackHandler.addEventListener(
-        "hardwareBackPress",
-        handleBacknavigation
-    );
-    return () => {
-        backhandler.remove();
-    }
-}, [navigation]);
+// useEffect(() => {
+//     const backhandler = BackHandler.addEventListener(
+//         "hardwareBackPress",
+//         handleBacknavigation
+//     );
+//     return () => {
+//         backhandler.remove();
+//     }
+// }, [navigation]);
 
 
 
   return (
+   <SafeAreaView style={{ flex: 1 }}>
     <View style={styles.container}>
       <View style={styles.image_View}>
         <Image style={styles.image_style} source={require('../../../images/LOGO_ICTAK-ENG-ALT-White-Text.png')} />
@@ -124,6 +126,7 @@ useEffect(() => {
         />
       </View>
     </View>
+    </SafeAreaView>
   );
 }
 

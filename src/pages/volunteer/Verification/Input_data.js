@@ -11,33 +11,31 @@ const Input_data=({navigation})=>{
     const [userName,setUserName] = useState('');
     
     const handleCheckTheId=async()=>{
-        try{
+       
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             // Regular expression for mobile number validation
             const mobileRegex = /^\d{10}$/;
             
             console.log("userInput",userName.length);
-            if(emailRegex.test(userName) || mobileRegex.test(userName)){
+            // if(emailRegex.test(userName) || mobileRegex.test(userName)){
                 const userData = await fetchThe_userId(userName);
-                console.log("userId fetched",userData[0]._id);
-                qrdata.current = userData[0]._id;
-                console.log("userId data",qrdata.current);
-                navigation.navigate("singleUserVerify",{qrdata:qrdata.current});
-                
-            }
-            else{
-                
-                navigation.navigate("singleUserVerify",{qrdata:userName});
-            }
-        }
-        catch(errr){
-            console.log("network error",errr);
-            const userid = await fetch_The_id_From_UserTable(userName);
-            qrdata.current = userid[0].id
-            console.log("userrrrr",qrdata.current);
-            navigation.navigate("singleUserVerify",{qrdata:qrdata.current});
-
-        }
+                console.log("userId fetched-----",userData);
+                if(userData.data){
+                    if(userData.data.success === true){
+                    qrdata.current = userData.data.data.registrationId;
+                    console.log("userId data",qrdata.current);
+                    navigation.navigate("singleUserVerify",{qrdata:qrdata.current});
+                    }
+                    else{
+                        alert("User not found");
+                    }
+                }
+                else{
+                    const userid = await fetch_The_id_From_UserTable(userName);
+                    qrdata.current = userid[0]._id
+                    console.log("userrrrr",qrdata.current);
+                    navigation.navigate("singleUserVerify",{qrdata:qrdata.current});
+                }
         
     }
     return(
@@ -88,11 +86,11 @@ const styles = StyleSheet.create({
         color: "#ffff",
     },
     buttonCheck:{
-        alignSelf:'center',
-        bottom:6,
+        marginTop:50,
+        marginLeft:20,
+        alignSelf:'start',
         width:'30%',
-        backgroundColor:'#ffff',
-        position:'absolute',
+        backgroundColor:'#ffff'
     }
 
 })

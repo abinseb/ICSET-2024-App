@@ -267,7 +267,7 @@ export const group_dataFrom_groupTable = () => {
       try {
         db.transaction((tx) => {
           tx.executeSql(
-            'SELECT id FROM user_table WHERE mobile = ? OR email = ? ;',
+            'SELECT _id FROM user_table WHERE mobile = ? OR email = ? ;',
             [mobileOrEmail,mobileOrEmail],
             (_, { rows }) => {
               if (rows.length > 0) {

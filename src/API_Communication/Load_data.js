@@ -99,14 +99,16 @@ export const list_verifiedUserData_basedOngroup=async(groupid,workshopname)=>{
 export const fetchThe_userId=async(emailOrMobile)=>{
   const evnid = await getEventId();
   try{
-    const userId = await axios.get(`${url}/volunter/search/${evnid}/${emailOrMobile}`)
-    const userdata = userId.data;
-    console.log("userId",userdata.data);
-    return userdata.data;
+    const userId = await axios.post(`${url}/api/volunteer/event-entry/get/user/emaiOrmobile`,{
+       "emailOrMobile":emailOrMobile,
+        "eventId":evnid
+    })
+    return userId;
 
   }
   catch(error){
     console.log("Error in fetching",error);
+    return error;
   }
 }
 

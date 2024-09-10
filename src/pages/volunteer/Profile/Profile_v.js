@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { logoutSuccess } from "../../../redux/Actions";
 import { deleteAllTables } from "../../../SQLDatabaseConnection/Drop_table";
 import { removeEventId, removeUserData } from "../../../AsyncStorage/StoreUserCredentials";
-const VolunteerProfile=()=>{
+const VolunteerProfile=({navigation})=>{
 const dispatch = useDispatch();
 
     const log_Out_fromDevice=async()=>{
@@ -15,7 +15,8 @@ const dispatch = useDispatch();
             await removeEventId();
             await dispatch(logoutSuccess());
             await deleteAllTables();
-            await exit_App();
+            // await exit_App();
+            await navigation.navigate('Login');
 
         }
         catch(errr){

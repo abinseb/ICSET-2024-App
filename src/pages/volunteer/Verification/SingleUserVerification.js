@@ -42,7 +42,6 @@ const [groupname,setGroupname] = useState('');
 
   // fetch the user data based on id
   const userDataFetch=async()=>{
-      console.log("userdata arryyaa__________",qrdata);
       const userData = await user_data_based_on_id(qrdata);
       console.log("userdataaa---------------",userData);
      if(userData.data){
@@ -122,7 +121,7 @@ useEffect(()=>{
         
           <TouchableOpacity onPress={()=>{navigationToScan(screen = 'ScanQRCode')}} style={styles.touchable} >
             <View style={styles.backNavigationView}>
-              <FontAwesome5 name="less-than" size={20} color="black" />
+              <FontAwesome5 name="less-than" size={20} color="white" />
             </View>
           </TouchableOpacity>
                
@@ -165,7 +164,7 @@ useEffect(()=>{
                 </View>
                 
             </View>
-            {user.attendanceStatus === true || 1 ?
+            {user.attendanceStatus === true || user.attendanceStatus === 1 ?
                  <View style={styles.buttonView}>
                   <Text style={{color:'#228b22',alignSelf:'center',fontSize:20}}>Verified</Text>
                   <Button mode="contained" onPress={()=>{navigationToScan('ScanQRCode')}} style={styles.customButtonBackToHome}>Back To Home</Button>
@@ -216,6 +215,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius:80,
   },
   profileBox:{
+    paddingLeft:10,
+    paddingRight:10,
     paddingTop:10,
     backgroundColor:'#fff',
     height:'70%',
@@ -290,7 +291,6 @@ const styles = StyleSheet.create({
     
     height:40,
     width:40,
-    backgroundColor:'#ffff',
     borderRadius:22,
     margin:'10%',
     marginTop:'35%',

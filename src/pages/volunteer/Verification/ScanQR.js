@@ -97,12 +97,12 @@ const offline_verified_count=async()=>{
     return(
         <SafeAreaView style={styles.container}>
                     <TouchableOpacity style={styles.profileImageView} onPress={navigationToProfile}>
-                        <Image style={styles.profileImage} source={(require('./../../../images/setting.png'))} />
+                        <Image style={styles.profileImage} source={(require('./../../../images/settings.png'))} />
                         
                     </TouchableOpacity>
             <TouchableOpacity onPress={handleBackNavigation} style={styles.backNavigationTouchable}>
                 <View style={styles.backNavigationView}>
-                <FontAwesome5 name="less-than" size={16} color="black" />
+                <FontAwesome5 name="less-than" size={16} color="white" />
                 </View>
             </TouchableOpacity>
             
@@ -152,10 +152,10 @@ const styles = StyleSheet.create({
       position:'absolute',
     //   marginTop:'14%',
       top:50,
-      right:5,
+      right:10,
       padding:2,
         borderRadius:20,
-        backgroundColor:'white',
+        // backgroundColor:'white',
         justifyContent:'center',
         alignItems:'center',
      },
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
        
         height:40,
         width:40,
-        backgroundColor:'transparent',
+        // backgroundColor:'white',
         borderRadius:22,
         // margin:10,
         // marginTop:40,
@@ -223,7 +223,8 @@ const styles = StyleSheet.create({
         top:0,
         position:'absolute',
         marginTop:'14%',
-        marginLeft:'5%',
+        marginLeft:'3%',
+        
     },
 
     workshopNameView:{
