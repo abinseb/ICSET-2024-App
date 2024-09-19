@@ -14,7 +14,6 @@ const QRCodeScanner =()=>{
         setScanned(true);
         // setQrData(data);
         qrdata.current = data;
-        alert("scanned",data);
         navigationToVerification();
     }
   const navigationToVerification=()=>{

@@ -7,10 +7,11 @@ export const insert_To_UserTable=async()=>{
 
     try{
         const userData = await user_data_load();
+        console.log("user data",userData);
         
         await new Promise((resolve, reject) => {
             db.transaction((tx) => {
-                userData.forEach((user) => {
+                userData.eventEntry.forEach((user) => {
                     tx.executeSql(
                         'INSERT INTO user_table (_id,firstName,lastName,mobile,email,groupid,type,time,organization,attendanceStatus) VALUES (?,?,?,?,?,?,?,?,?,?);',
                         [
@@ -26,11 +27,11 @@ export const insert_To_UserTable=async()=>{
                             user.attendanceStatus || false
                         ],
                         () => {
-                            console.log("-----inserted into userTable--------",user);
+                            console.log("-----inserted into userTable--------");
                             resolve();
                         },
                         (error) => {
-                            console.error(user,"Error in inserting_user_table", error);
+                            console.error("Error in inserting_user_table", error);
                             reject(error);
                         }
                     );

@@ -7,23 +7,21 @@ import { update_local_Table } from "../SQLDatabaseConnection/Update_Table";
 // url connection
 const url = URL_Connection();
 // eventid
-const eventid = eventID();
+
 export const dataFetchbasedOnTimeStamp=async()=>{
+    const eventid = eventID();
     try{
        const maxTime = await maximumTimeStampFetch();
        console.log(maxTime)
-       console.log(`${url}/timestamp`,eventid);
-        const response = await axios.post(`${url}/timestamp`,{
-                                        "event" : eventid,
-                                        "timestamp": maxTime
+        const response = await axios.post(`${url}/api/volunteer/event-entry/background-sync`,{
+                                        // "event" : eventid,
+                                        "maximiumTime": maxTime
                                     });
-     const updatedData = response.data;
-        console.log("dataa_______",updatedData);
-        const workshop = Object.keys(updatedData.particpants[0].workshops);
-        console.log("Workshops",workshop);
-        update_local_Table(updatedData,workshop);
-
-        return updatedData.particpants;
+                                    console.log(response);
+     
+        console.log("dataa_______",response.data);
+        update_local_Table(response.data);
+        return response.data;
 
     }
     catch(error){

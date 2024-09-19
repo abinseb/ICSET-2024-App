@@ -41,7 +41,7 @@ export const saveUserData = async(token)=>{
 };
 
 // To retrive user data
-export const getUserData =async()=>{
+export const getToken =async()=>{
     try{
         const userData = await AsyncStorage.getItem('userData');
         if(userData !== null){
@@ -49,7 +49,6 @@ export const getUserData =async()=>{
 
             // return user name annd token seperately
             const {token} = parsedUserData;
-            console.log("user credentials in asyncstorage",parsedUserData);
             return {token};
         }
         else{

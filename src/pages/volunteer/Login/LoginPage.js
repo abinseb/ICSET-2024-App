@@ -97,6 +97,7 @@ const Login = ({ navigation }) => {
         }
         else{
             const authData =  await authenticate_Volunteer(userName,password);
+            console.log("authData",authData);
             if(authData.data){
                 // if(authData.success === true){
                     await saveUserData(authData.data.token);

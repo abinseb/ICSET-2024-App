@@ -40,7 +40,6 @@ const ChooseEvent = ({navigation}) => {
 
 
   const handleSelectEvent =async (val) => {
-    alert(val);
     await saveEventId(val);
     await getMasterData_And_InsertToLoacal(val);
    await navigationToNext('bottomTab');

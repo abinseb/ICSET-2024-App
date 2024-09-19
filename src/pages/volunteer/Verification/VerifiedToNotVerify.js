@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity,ToastAndroid} from "react-native";
+import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity,ToastAndroid,ActivityIndicator} from "react-native";
 import { Card} from "react-native-paper";
 import { useSelector } from "react-redux";
 import { List_userbasedOn_group, list_verifiedUserData_basedOngroup } from "../../../API_Communication/Load_data";
@@ -23,7 +23,8 @@ const token ='edee';
  const [userdata,setUserData] = useState([]);
 
  const [refresh, setRefresh] = useState(false);
-
+ const [loading , setLoading]  = useState(false);
+ 
 useFocusEffect(
     React.useCallback(()=>{
         verifiedUserData();
@@ -32,16 +33,19 @@ useFocusEffect(
 
 
 const verifiedUserData=async()=>{
+    setLoading(true)
         const verifiedData = await List_userbasedOn_group(groupid,true);
     console.log("verified_data_______#####",verifiedData);
     if(verifiedData.data){
         setUserData(verifiedData.data.data|| []);
+        setLoading(false);
     }
     else{
         console.error("errorrrr_____________");
         const verifiedTableData = await Verified_user_data_basedON_group(groupid,true);
         console.log("verified-------------->>>>>>")
         setUserData(verifiedTableData || []);
+        setLoading(false);
     }
 
 }
@@ -62,13 +66,15 @@ const unverify_user_inGroup=async(userid)=>{
         if(unverify.data){
             if(unverify.data.success === true){
                 setRefresh(!refresh);
+                ToastAndroid.show('UnVerified', ToastAndroid.SHORT);
             }
             // else if(unverify === 403 ){
             //     alert("Your session has expired due to inactivity. Please log out and log back in to continue using the application.");
             //     navigationToprofile();
             // }
             else{
-               alert("UnVerification Failed");
+               //alert("UnVerification Failed");
+               ToastAndroid.show('UnVerification Failed', ToastAndroid.SHORT);
             }
         }
     else{
@@ -88,7 +94,15 @@ const navigationToprofile=()=>{
     return (
         <SafeAreaView style={styles.container}>
             {userdata.length == 0 ?
+            <>
+            {
+                loading === true ?
+                <ActivityIndicator size="large" color="#0000ff" />
+                 :
                 <BoxText message='No User Verified' />
+            }
+            </>
+               
                 :
             <View style={styles.innerBox}>
                 <View style={styles.TittleView}>

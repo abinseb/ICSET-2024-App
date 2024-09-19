@@ -43,13 +43,19 @@ const [groupname,setGroupname] = useState('');
   // fetch the user data based on id
   const userDataFetch=async()=>{
       const userData = await user_data_based_on_id(qrdata);
-      console.log("userdataaa---------------",userData);
+      console.log("userdataaa---------------",userData.data);
      if(userData.data){
+       if(userData.data.success === true){
         setUser(userData.data.eventEntry);
         if(userData.data.eventEntry.type === 1){
           setOrgname(userData.data.eventEntry.institutionId.name);
         }
+       }
+       if(userData.data.success === false){
+        alert(userData.data.message);
+        navigationToScan('ScanQRCode');
      }
+    }
      else{
       ToastAndroid.show("You are Offline", ToastAndroid.SHORT);
       const offlinedata = await userDetailsBasedOnIDFromTable(qrdata);
@@ -84,12 +90,12 @@ function showToastNotificationverification() {
     console.log("verfiyUser",verifyUser.data);
     if(verifyUser.data){
       if(verifyUser.data.success === true){
-        alert(verifyUser.data.message);
+        ToastAndroid.show(verifyUser.data.message, ToastAndroid.SHORT);
         navigationToScan("ScanQRCode")
       }
     }
     else{
-       alert("offline");
+        // alert("Offline");
        userVerification_Offline(qrdata,true);
        navigationToScan(screen='ScanQRCode');
     }

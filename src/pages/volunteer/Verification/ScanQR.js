@@ -96,13 +96,12 @@ const offline_verified_count=async()=>{
 
     return(
         <SafeAreaView style={styles.container}>
-                    <TouchableOpacity style={styles.profileImageView} onPress={navigationToProfile}>
-                        <Image style={styles.profileImage} source={(require('./../../../images/settings.png'))} />
-                        
-                    </TouchableOpacity>
+            <TouchableOpacity style={styles.profileImageView} onPress={navigationToProfile}>
+                <Image style={styles.profileImage} source={(require('./../../../images/settings.png'))} />
+            </TouchableOpacity>
             <TouchableOpacity onPress={handleBackNavigation} style={styles.backNavigationTouchable}>
                 <View style={styles.backNavigationView}>
-                <FontAwesome5 name="less-than" size={16} color="white" />
+                    <FontAwesome5 name="less-than" size={16} color="white" />
                 </View>
             </TouchableOpacity>
             
@@ -110,9 +109,6 @@ const offline_verified_count=async()=>{
                 <Text style={styles.workshopText}>{'ICSET 2024'}</Text>
             </View>
                
-            {/* {scanner ==true? */}
-            {/* <BarCodeScan />  //barcode scanning 
-             : */}
             <View style={styles.buttonViewBox}>
                 <TouchableOpacity onPress={handleQRCodeScan}>
                     <View style={styles.innerButton}>
@@ -151,7 +147,7 @@ const styles = StyleSheet.create({
         display:'flex',
       position:'absolute',
     //   marginTop:'14%',
-      top:50,
+      top:'2%',
       right:10,
       padding:2,
         borderRadius:20,
@@ -199,12 +195,12 @@ const styles = StyleSheet.create({
     txt1:{
         color:'#FFF',
         fontSize:16,
-        fontWeight:'500'
+        fontWeight:'300'
     },
     txt2:{
         color:'#FFF',
         fontSize:16,
-        fontWeight:'600',
+        fontWeight:'500',
         paddingLeft:4
     },
     backNavigationView:{
@@ -220,9 +216,8 @@ const styles = StyleSheet.create({
 
     },
     backNavigationTouchable:{
-        top:0,
+        top:'2%',
         position:'absolute',
-        marginTop:'14%',
         marginLeft:'3%',
         
     },

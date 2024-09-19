@@ -25,7 +25,7 @@ export default function BottomTabs(){
                     tabBarIcon:()=>(
                         <MaterialIcons name='groups' size={24} color="black" />
                     ),
-                    tabBarLabel:'Bulk Registration',
+                    tabBarLabel:'Bulk Verification',
                 }}
             />
         </Tab.Navigator>

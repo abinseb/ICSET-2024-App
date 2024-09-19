@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, StyleSheet, Text, Image, ScrollView ,ToastAndroid} from "react-native";
+import { View, StyleSheet, Text, Image, ScrollView ,ToastAndroid ,ActivityIndicator} from "react-native";
 import { Card, Checkbox } from "react-native-paper";
 import { List_userbasedOn_group } from "../../../API_Communication/Load_data";
 import { useSelector } from "react-redux";
@@ -21,6 +21,8 @@ const NotVerifiedToVerify = ({ route,navigation }) => {
 
   const [refresh, setRefresh] = useState(false);
 
+  const [loading , setLoading ] = useState(false);
+
   // token
   // token
 const token = useSelector((state) => state.auth.token);
@@ -33,10 +35,12 @@ const token = useSelector((state) => state.auth.token);
   );
 
   const listOfUser_inGroup = async () => {
+    setLoading(true);
       const userData = await List_userbasedOn_group(groupid,false);
       if(userData.data){
         setUserList(userData.data.data || []);
          setIsChecked(userData.data.data.map(() => false));
+         setLoading(false);
       }
       else{
         alert("offline");
@@ -44,6 +48,7 @@ const token = useSelector((state) => state.auth.token);
       console.log("User data from table:", tableData);
        setUserList(tableData || []);
       setIsChecked(tableData.map(() => false));
+      setLoading(false);
       }
   };
   
@@ -57,14 +62,12 @@ const token = useSelector((state) => state.auth.token);
           if(verification.data.success === true ){
           await setIsChecked(updatedCheckedState);
           setRefresh(!refresh);
-        
+          ToastAndroid.show('Verified', ToastAndroid.SHORT);
      }
-    //  else if(verification === 403 ){
-    //   alert("Your session has expired due to inactivity. Please log out and log back in to continue using the application")
-    //   navigationToprofile();
-    //      }
+    
      else{
-      alert("verification failedd");
+      //alert("verification Failed");
+      ToastAndroid.show('Verification Failed', ToastAndroid.SHORT);
      }
       }
       else{
@@ -74,26 +77,21 @@ const token = useSelector((state) => state.auth.token);
       await setIsChecked(updatedCheckedState);
       setRefresh(!refresh);
 
-      }
-    
-    
-    
+      } 
   };
 
-// notification alert
-function showToastNotificationverification() {
-  ToastAndroid.show("Verified", ToastAndroid.SHORT);
-}
-  // navigation to logout
-  const navigationToprofile=()=>{
-    navigation.navigate('Profile');
-  }
  
 
   return (
     <SafeAreaView style={styles.container}>
-      {userList.length == 0 ? 
-      <BoxText message='All Verified' />
+      {userList.length === 0 ? 
+      <>
+     {loading === true ?
+         <ActivityIndicator size="large" color="#0000ff" />
+       :  
+       <BoxText message='All Verified' />
+      }
+      </>
       :
       <View style={styles.innerBox}>
         <View style={styles.TittleView}>
@@ -163,7 +161,7 @@ const styles = StyleSheet.create({
     paddingBottom: "30%",
   },
   cardStyle: {
-    height: 110,
+    height: 'auto',
     width: "95%",
     backgroundColor: "#ffffff",
     marginBottom: 10,

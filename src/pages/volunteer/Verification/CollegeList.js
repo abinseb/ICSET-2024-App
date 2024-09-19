@@ -65,6 +65,7 @@ const BulkVerification =({navigation})=>{
           }}
           itemsContainerStyle={{
             maxHeight: '100%',
+      
           }}
           items={items}
           defaultIndex={2}
@@ -84,7 +85,8 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:'#012E41',
         padding:10,
-        justifyContent:'space-between'
+        justifyContent:'space-between',
+        paddingBottom:'20%'
     },
     TopTextView:{
       top:0,
@@ -102,6 +104,7 @@ const styles = StyleSheet.create({
     
     },
     searchableDropDownContainer:{
-      marginTop:'10%'
+      marginTop:'5%',
+     // marginBottom:'20%'
     }
 })

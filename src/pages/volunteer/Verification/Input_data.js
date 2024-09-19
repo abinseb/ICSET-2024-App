@@ -19,7 +19,7 @@ const Input_data=({navigation})=>{
             console.log("userInput",userName.length);
             // if(emailRegex.test(userName) || mobileRegex.test(userName)){
                 const userData = await fetchThe_userId(userName);
-                console.log("userId fetched-----",userData);
+                console.log("userId fetched-----",userData.data);
                 if(userData.data){
                     if(userData.data.success === true){
                     qrdata.current = userData.data.data.registrationId;

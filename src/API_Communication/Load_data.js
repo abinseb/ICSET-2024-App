@@ -4,7 +4,7 @@ import { insertWorkshopTable, insert_To_UserTable } from "../SQLDatabaseConnecti
 import { Create_user_table } from "../SQLDatabaseConnection/Create_Table";
 import { update_user_Table } from "../SQLDatabaseConnection/Update_Table";
 import { event_id } from "../SQLDatabaseConnection/FetchDataFromTable";
-import { getEventId } from "../AsyncStorage/StoreUserCredentials";
+import { getEventId, getToken } from "../AsyncStorage/StoreUserCredentials";
 
 // fetch url 
 const url = URL_Connection();
@@ -25,14 +25,21 @@ export const event_Data_Get=async()=>{
 // load user data
 export const user_data_load=async()=>{
   const evnid = await getEventId();
+  const {token} = await getToken();
+  console.log("token in user data load",token);
   console.log("event id------------------------------------",evnid);
    try{
-    const response = await axios.get(`${url}/api/volunteer/event-entry/get/${evnid}`); 
+    const response = await axios.get(`${url}/api/volunteer/event-entry/get/${evnid}`,{
+      headers:{
+        Authorization: token
+      }
+    }); 
     return  response.data;;
     
    }
    catch(error){
       console.log('Error :',error);
+
    } 
 }
 
@@ -40,8 +47,13 @@ export const user_data_load=async()=>{
 // load userdata based on userid and eventid
 export const user_data_based_on_id =async(userId)=>{
   const evnid = await getEventId();
+  const {token} = await getToken();
   try{
-    const response = await axios.get(`${url}/api/volunteer/event-entry/get/single/${userId}/${evnid}`);
+    const response = await axios.get(`${url}/api/volunteer/event-entry/get/single/${userId}/${evnid}`,{
+      headers:{
+        Authorization: token
+      }
+    });
     return  response;
   }
   catch(err){
@@ -54,9 +66,13 @@ export const user_data_based_on_id =async(userId)=>{
 // Group name list
 export const Group_list_load=async()=>{
   const evnid = await getEventId();
+  const {token} = await getToken();
     try{
-        const response = await axios.get(`${url}/api/volunteer/event-entry/get/institutions/${evnid}`)
-        console.log("__________list",response);
+        const response = await axios.get(`${url}/api/volunteer/event-entry/get/institutions/${evnid}`,{
+          headers:{
+            Authorization: token
+          }
+        })
         return response;
       
     }
@@ -70,11 +86,16 @@ export const Group_list_load=async()=>{
 // list the students based on the groups
 export const List_userbasedOn_group=async(groupId,status)=>{
   const evnid = await getEventId();
+  const {token} = await getToken();
   try{
       const response = await axios.post(`${url}/api/volunteer/event-entry/get/user/event/org`,{
         "eventid":evnid,
         "institutionid":groupId,
         "attendanceStatus":status
+      },{
+        headers:{
+          Authorization: token
+        }
       })
       return response;
   }
@@ -85,23 +106,28 @@ export const List_userbasedOn_group=async(groupId,status)=>{
 }
 
 // unverified user data based on group and workshop
-export const list_verifiedUserData_basedOngroup=async(groupid,workshopname)=>{
-  const evnid = await getEventId();
-    const response = await axios.get(`${url}/volunter/getusergroup/unverify/${evnid}/${groupid}/${workshopname}`);
-    const verifiedUser = response.data;
-    console.log("verified user based on group",verifiedUser);
-    return await verifiedUser.data;
+// export const list_verifiedUserData_basedOngroup=async(groupid,workshopname)=>{
+//   const evnid = await getEventId();
+//     const response = await axios.get(`${url}/volunter/getusergroup/unverify/${evnid}/${groupid}/${workshopname}`);
+//     const verifiedUser = response.data;
+//     console.log("verified user based on group",verifiedUser);
+//     return await verifiedUser.data;
  
-}
+// }
 
 
 // fetch the user id from the userdata
 export const fetchThe_userId=async(emailOrMobile)=>{
   const evnid = await getEventId();
+  const {token} = await getToken();
   try{
     const userId = await axios.post(`${url}/api/volunteer/event-entry/get/user/emaiOrmobile`,{
        "emailOrMobile":emailOrMobile,
         "eventId":evnid
+    },{
+      headers:{
+        Authorization: token
+      }
     })
     return userId;
 
