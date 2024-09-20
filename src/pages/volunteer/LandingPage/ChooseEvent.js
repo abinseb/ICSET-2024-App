@@ -16,6 +16,7 @@ const ChooseEvent = ({navigation}) => {
   useEffect(() => {
    const event_data_fetch = async () => {
      const response = await event_Data_Get();
+     console.log("response",response);
      if(response.data){
       const transformdata = await response.data.events.map(event => ({
         key: event._id,

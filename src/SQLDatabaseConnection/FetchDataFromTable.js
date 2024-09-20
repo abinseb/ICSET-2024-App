@@ -93,7 +93,7 @@ export const userDetailsBasedOnIDFromTable = (userId) => {
                
               } else {
                 console.log("empty");
-                resolve(null); // Resolve with null if no rows are found
+                resolve([]); // Resolve with null if no rows are found
               }
             },
             (_, error) => {

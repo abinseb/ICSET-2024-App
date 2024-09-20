@@ -63,8 +63,17 @@ const [groupname,setGroupname] = useState('');
           
         // if(Number(offlinedata[0][workshopname]) != 0){
         //   workshopValue.current= (Number(offlinedata[0][workshopname]));
+        if(offlinedata[0] === undefined){
+          alert('User Not Registered');
+          navigationToScan('ScanQRCode');
+        }
+        else{
           setUser(offlinedata[0]);
           setOrgname(offlinedata[0].organization);
+          
+          
+        }
+         
           // const groupdataname = await groupName_from_id(offlinedata[0].groupid);
           // setGroupname(groupdataname);
           
@@ -148,9 +157,9 @@ useEffect(()=>{
                 <Text style={styles.nameText}>{user.firstName+' '+user.lastName} </Text>
                 <Text style={styles.institusionText}>{orgname}</Text>
             </View> 
-           <View style={{alignSelf:'center',alignItems:'center',paddingTop:20}}>
-           <Text style={styles.workshopNameStyle}>{'Google Workshop'}</Text>
-           </View>
+           {/* <View style={{alignSelf:'center',alignItems:'center',paddingTop:20}}>
+           <Text style={styles.workshopNameStyle}>{user.event_id.location}</Text>
+           </View> */}
             <View style={styles.tittleDetails}>
                 <Text style={styles.TittleText}>Participant Details</Text>
             </View>
@@ -225,7 +234,7 @@ const styles = StyleSheet.create({
     paddingRight:10,
     paddingTop:10,
     backgroundColor:'#fff',
-    height:'70%',
+    height:'65%',
     width:'85%',
     alignSelf:'center',
     borderRadius:30,
@@ -299,7 +308,6 @@ const styles = StyleSheet.create({
     width:40,
     borderRadius:22,
     margin:'10%',
-    marginTop:'35%',
     alignItems:'center',
     justifyContent:'center',
 },

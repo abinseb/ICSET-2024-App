@@ -35,7 +35,6 @@ useFocusEffect(
 const verifiedUserData=async()=>{
     setLoading(true)
         const verifiedData = await List_userbasedOn_group(groupid,true);
-    console.log("verified_data_______#####",verifiedData);
     if(verifiedData.data){
         setUserData(verifiedData.data.data|| []);
         setLoading(false);
@@ -62,7 +61,6 @@ const verifiedUserData=async()=>{
 const unverify_user_inGroup=async(userid)=>{
     
         const unverify = await userVerification(false,userid);
-        console.log("unverify",unverify);
         if(unverify.data){
             if(unverify.data.success === true){
                 setRefresh(!refresh);
@@ -121,7 +119,7 @@ const navigationToprofile=()=>{
                                     <View style={styles.textView}>
                                         <Text style={styles.txt1}> {value.email}</Text>
                                         <Text style={styles.txt1}> {value.mobile}</Text>
-                                        <Text style={styles.workshopTxt}>{'Google Workshop'}</Text>
+                                        {/* <Text style={styles.workshopTxt}>{'Google Workshop'}</Text> */}
                                         <Text style={styles.verifiedTxt}>Verified</Text>
                                     </View>
                                     <View style={styles.viewCheckBox}>
@@ -176,7 +174,7 @@ const styles = StyleSheet.create({
         // backgroundColor:'#ffff'
     },
     cardStyle: {
-        height: 130,
+        height:'auto',
         width: '95%',
         backgroundColor: '#ffff',
         marginBottom: 10,

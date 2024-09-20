@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     
     },
     searchableDropDownContainer:{
-      marginTop:'5%',
+      marginTop:'10%',
      // marginBottom:'20%'
     }
 })

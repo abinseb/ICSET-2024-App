@@ -8,6 +8,7 @@ import { enableScreens } from "react-native-screens";
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
 import { dataFetchbasedOnTimeStamp } from "./src/API_Communication/BackgroundSync";
+import { user_Table_data } from "./src/SQLDatabaseConnection/FetchDataFromTable";
 
 
 TaskManager.defineTask('defaultRun', async()=>{
@@ -20,16 +21,17 @@ export default function App() {
 
 
 
-// useEffect(()=>{
-// const timerId = setInterval(()=>{
-//   dataFetchbasedOnTimeStamp();
-//   console.log("update table");
-// },10*1000);
+useEffect(()=>{
+const timerId = setInterval(()=>{
+  dataFetchbasedOnTimeStamp();
+  console.log("update table");
+  // user_Table_data();
+},5 * 60 * 1000);
 
-// return()=>{
-//   clearInterval(timerId);
-// };
-// },[]);
+return()=>{
+  clearInterval(timerId);
+};
+},[]);
 
 
 

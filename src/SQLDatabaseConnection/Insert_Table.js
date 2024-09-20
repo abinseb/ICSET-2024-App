@@ -7,7 +7,6 @@ export const insert_To_UserTable=async()=>{
 
     try{
         const userData = await user_data_load();
-        console.log("user data",userData);
         
         await new Promise((resolve, reject) => {
             db.transaction((tx) => {
@@ -22,7 +21,7 @@ export const insert_To_UserTable=async()=>{
                             user.email,
                             user.institutionId?._id || null,
                             user.type,
-                            user.time || 0,
+                            null,
                             user.type === 3 ?  user.organizationName : user.institutionId.name ,
                             user.attendanceStatus || false
                         ],

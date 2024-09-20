@@ -1,7 +1,7 @@
 import { getEventId } from "../AsyncStorage/StoreUserCredentials";
 
 export const URL_Connection=()=>{
-    const apiurl = 'http://192.168.1.165:4000';
+    const apiurl = 'https://betadev.ictkerala.org';
     return apiurl;
 }
 

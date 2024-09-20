@@ -13,8 +13,13 @@ const url = URL_Connection();
 const eventId = getEventId();
 // load event data from server
 export const event_Data_Get=async()=>{
+  const {token} = await getToken();
   try{
-    const event =  await axios.get(`${url}/api/register/event/get`);
+    const event =  await axios.post(`${url}/api/volunteer/event-entry/event/get`,{},{
+      headers:{
+        Authorization: token
+      }
+    });
     return event;
   }
   catch(error){

@@ -107,7 +107,7 @@ const token = useSelector((state) => state.auth.token);
                   <View style={styles.textView}>
                     <Text style={styles.txt1}> {value.email}</Text>
                     <Text style={styles.txt1}> {value.mobile}</Text>
-                    <Text style={styles.workshopTxt}>{'Google Workshop'}</Text>
+                    {/* <Text style={styles.workshopTxt}>{'Google Workshop'}</Text> */}
                   </View>
                   <View style={styles.viewCheckBox}>
                     <Checkbox

@@ -45,13 +45,13 @@ export const userVerification_Offline=(userid,status)=>{
 
 
 // background updation of local sqlite table
-export const update_local_Table=(updatedData,workshop)=>{
+export const update_local_Table=(updatedData)=>{
     try{
         db.transaction((tx)=>{
-            updatedData.particpants.forEach((participants)=>{
+            updatedData.data.forEach((participants)=>{
                     tx.executeSql(
-                        `UPDATE user_table SET attendanceStatus = ?, Time = ? WHERE _id = ?;`,
-                        [true,updatedData.time,participants._id],
+                        `UPDATE user_table SET attendanceStatus = ?, time = ? WHERE _id = ?;`,
+                        [participants.attendanceStatus,updatedData.maximiumTime,participants.registrationId],
                         ()=>console.log("Back ground Updation successfull"),
                         (error)=>console.error("Error in Updation",error)
                     )
