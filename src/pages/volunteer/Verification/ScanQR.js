@@ -119,7 +119,7 @@ const offline_verified_count=async()=>{
             {/* } */}
             {offlineCount >0 &&(
             <View style={styles.syncButtonView}>
-                <Button onPress={syncOfflineToOnline} textColor="#000" style={styles.syncButton}>sync</Button>
+                <Button onPress={syncOfflineToOnline} textColor="#000" style={styles.syncButton}>Sync</Button>
 
             </View>)}
             <View style={styles.textView}>

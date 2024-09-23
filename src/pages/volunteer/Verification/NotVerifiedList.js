@@ -46,9 +46,15 @@ const token = useSelector((state) => state.auth.token);
         alert("offline");
       const tableData = await Verified_user_data_basedON_group(groupid, false);
       console.log("User data from table:", tableData);
-       setUserList(tableData || []);
-      setIsChecked(tableData.map(() => false));
-      setLoading(false);
+       if(tableData === null){
+        setLoading(false);
+        setUserList([]);
+       }
+       else{
+        setUserList(tableData || []);
+        setIsChecked(tableData.map(() => false));
+        setLoading(false);
+       }
       }
   };
   
@@ -103,7 +109,7 @@ const token = useSelector((state) => state.auth.token);
               <Card style={styles.cardStyle} key={index}>
                 <Card.Content style={styles.cardContentStyle}>
                   <Image style={styles.imageStyle} source={require("../../../images/user2.png")} />
-                  <Text style={styles.nameText}>{value.firstName +''+' '+value.lastName}</Text>
+                  <Text style={styles.nameText}>{value.firstName.toUpperCase() +''+' '+value.lastName.toUpperCase()}</Text>
                   <View style={styles.textView}>
                     <Text style={styles.txt1}> {value.email}</Text>
                     <Text style={styles.txt1}> {value.mobile}</Text>

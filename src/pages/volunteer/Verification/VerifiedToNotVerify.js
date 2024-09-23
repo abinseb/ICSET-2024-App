@@ -115,7 +115,7 @@ const navigationToprofile=()=>{
                             <Card style={styles.cardStyle} key={index}>
                                 <Card.Content style={styles.cardContentStyle}>
                                     <Image style={styles.imageStyle} source={require('../../../images/user4.png')}></Image>
-                                    <Text style={styles.nameText}>{value.firstName +' '+value.lastName}</Text>
+                                    <Text style={styles.nameText}>{value.firstName.toUpperCase() +' '+value.lastName.toUpperCase()}</Text>
                                     <View style={styles.textView}>
                                         <Text style={styles.txt1}> {value.email}</Text>
                                         <Text style={styles.txt1}> {value.mobile}</Text>

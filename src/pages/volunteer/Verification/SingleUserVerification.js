@@ -154,7 +154,13 @@ useEffect(()=>{
                 <Image style={styles.profileImage} source={(require('./../../../images/user.png'))} />
             </View>
             <View style={styles.nameTextTopView}>
-                <Text style={styles.nameText}>{user.firstName+' '+user.lastName} </Text>
+            {/* <Text style={styles.nameText}>
+              {(user?.firstName ? user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1).toLowerCase() : '') + ' ' + 
+              (user?.lastName ? user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1).toLowerCase() : '')}
+            </Text> */}
+             <Text style={styles.nameText}>{user.firstName.toUpperCase()+' '+user.lastName.toUpperCase()} </Text>
+
+
                 <Text style={styles.institusionText}>{orgname}</Text>
             </View> 
            {/* <View style={{alignSelf:'center',alignItems:'center',paddingTop:20}}>

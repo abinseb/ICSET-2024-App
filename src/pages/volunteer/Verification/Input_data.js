@@ -32,9 +32,14 @@ const Input_data=({navigation})=>{
                 }
                 else{
                     const userid = await fetch_The_id_From_UserTable(userName);
+                    console.log("userrrrr-----------------------------------------",userid);
+                    if(userid === undefined){
+                        alert("User not found");
+                    }
+                    else{
                     qrdata.current = userid[0]._id
-                    console.log("userrrrr",qrdata.current);
                     navigation.navigate("singleUserVerify",{qrdata:qrdata.current});
+                    }
                 }
         
     }
