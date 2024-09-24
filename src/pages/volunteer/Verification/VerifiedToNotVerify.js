@@ -35,7 +35,11 @@ useFocusEffect(
 const verifiedUserData=async()=>{
     setLoading(true)
         const verifiedData = await List_userbasedOn_group(groupid,true);
+        console.log("verifiedData--------->>>>",verifiedData);
     if(verifiedData.data){
+        verifiedData.data.data.sort((a, b) => {
+            return a.firstName.localeCompare(b.firstName);
+          })
         setUserData(verifiedData.data.data|| []);
         setLoading(false);
     }
@@ -115,7 +119,10 @@ const navigationToprofile=()=>{
                             <Card style={styles.cardStyle} key={index}>
                                 <Card.Content style={styles.cardContentStyle}>
                                     <Image style={styles.imageStyle} source={require('../../../images/user4.png')}></Image>
-                                    <Text style={styles.nameText}>{value.firstName.toUpperCase() +' '+value.lastName.toUpperCase()}</Text>
+                                    <Text style={styles.nameText}>
+                                    {(value?.firstName ? value.firstName.charAt(0).toUpperCase() + value.firstName.slice(1).toLowerCase() : '') + ' ' + 
+                                    (value?.lastName ? value.lastName.charAt(0).toUpperCase() + value.lastName.slice(1).toLowerCase() : '')}
+                                    </Text>
                                     <View style={styles.textView}>
                                         <Text style={styles.txt1}> {value.email}</Text>
                                         <Text style={styles.txt1}> {value.mobile}</Text>

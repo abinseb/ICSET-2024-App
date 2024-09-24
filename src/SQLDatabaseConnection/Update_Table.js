@@ -23,6 +23,29 @@ export const userVerification_Offline=(userid,status)=>{
     }
 }
 
+
+export const offlineBulkVerification =(userIdArray , status)=>{
+    console.log("userid",userIdArray,"status",status);
+    try{
+        db.transaction((tx)=>{
+            userIdArray.forEach((userid)=>{
+                tx.executeSql(
+                    `UPDATE user_table SET attendanceStatus = ? WHERE _id = ? ;`,
+                    [status,userid],
+                    ()=>{
+                        offline_dataInsert(userid , status);
+                        console.log("userverified_offline");
+                        },
+                    (error)=>console.log("verificationError",error)
+                )
+            })
+        })
+    }
+    catch(error){
+        console.log("Transaction error", error);
+    }
+}
+
 // unverify
 // export const unverification_Offline=(userid,workshop)=>{
 //     try{

@@ -189,7 +189,7 @@ useEffect(() => {
                     <TextInput
                         style={styles.userNameInput}
                         value={userName}
-                        placeholder="Email"
+                        placeholder="User Id"
                         placeholderTextColor='#aaa'
                         onChangeText={(value) => {
                             setUserName(value);

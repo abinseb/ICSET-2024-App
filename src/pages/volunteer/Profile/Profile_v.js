@@ -33,7 +33,7 @@ const dispatch = useDispatch();
         </View>
         <View style={styles.profileImageView}>
             <Image style={styles.imageStyle} source={require('../../../images/icon2.png')} />
-            <Text style={styles.nameText}>Vimal Prakash</Text>
+            <Text style={styles.nameText}>ICSET_Volunteer</Text>
         </View>
         <View style={styles.listView}>
             <List.Section>

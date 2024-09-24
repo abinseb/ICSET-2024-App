@@ -33,6 +33,25 @@ export const userVerification=async(verification,regid)=>{
 }
 
 
+export const userBulkVerification =async(userIdArray)=>{
+    const event_id = await getEventId();
+    const {token} =  await getToken();
+    try{
+        const respose = await axios.post(`${url}/api/volunteer/event-entry/attendee-verify/bulk`,{
+             "registrationIds":userIdArray
+        },{
+            headers:{
+                Authorization:token
+            }
+        });
+
+        return respose;
+    }
+    catch(error){
+        return error;
+}
+}
+
 
 
 

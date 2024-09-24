@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, StyleSheet, Text, Image, ScrollView ,ToastAndroid ,ActivityIndicator} from "react-native";
-import { Card, Checkbox } from "react-native-paper";
+import { Button, Card, Checkbox } from "react-native-paper";
 import { List_userbasedOn_group } from "../../../API_Communication/Load_data";
 import { useSelector } from "react-redux";
-import { userVerification } from "../../../API_Communication/Verification";
-import { Verified_user_data_basedON_group, user_Table_data, user_data_basedON_group } from "../../../SQLDatabaseConnection/FetchDataFromTable";
-import { userVerification_Offline } from "../../../SQLDatabaseConnection/Update_Table";
+import { userBulkVerification } from "../../../API_Communication/Verification";
+import { Verified_user_data_basedON_group } from "../../../SQLDatabaseConnection/FetchDataFromTable";
+import { offlineBulkVerification } from "../../../SQLDatabaseConnection/Update_Table";
 import { useFocusEffect } from "@react-navigation/native";
 import BoxText from "../../../components/BoxText";
 const NotVerifiedToVerify = ({ route,navigation }) => {
@@ -18,6 +18,7 @@ const NotVerifiedToVerify = ({ route,navigation }) => {
   // userlist
   const [userList, setUserList] = useState([]);
   const [isChecked, setIsChecked] = useState([]);
+  const [selectedUserId , setSelectedUserId] = useState([]);
 
   const [refresh, setRefresh] = useState(false);
 
@@ -36,8 +37,12 @@ const token = useSelector((state) => state.auth.token);
 
   const listOfUser_inGroup = async () => {
     setLoading(true);
+    setSelectedUserId([]);
       const userData = await List_userbasedOn_group(groupid,false);
       if(userData.data){
+        userData.data.data.sort((a, b) => {
+          return a.firstName.localeCompare(b.firstName);
+        })
         setUserList(userData.data.data || []);
          setIsChecked(userData.data.data.map(() => false));
          setLoading(false);
@@ -62,29 +67,35 @@ const token = useSelector((state) => state.auth.token);
   const handleCheckboxPressed = async (id, index) => {
     const updatedCheckedState = [...isChecked];
     updatedCheckedState[index] = !updatedCheckedState[index];
-     const verification = await userVerification(true,id);
-     console.log("verificationstatus----------------",verification.data);
-      if(verification.data){
-          if(verification.data.success === true ){
-          await setIsChecked(updatedCheckedState);
-          setRefresh(!refresh);
-          ToastAndroid.show('Verified', ToastAndroid.SHORT);
-     }
+    setIsChecked(updatedCheckedState);
+    console.log(updatedCheckedState[index],"------------------")
+    if(updatedCheckedState[index]){
+      setSelectedUserId((prevSelected) => [...prevSelected, id]);
+    console.log("Selected user ID added:", selectedUserId);
+    }
+    else{
+      setSelectedUserId((prevSelected) => prevSelected.filter((userId) => userId !== id));
+    console.log("Selected user ID removed:", selectedUserId);
+    }
     
-     else{
-      //alert("verification Failed");
-      ToastAndroid.show('Verification Failed', ToastAndroid.SHORT);
-     }
-      }
-      else{
-      //console.log("iidddd",id);
-      const updatedCheckedState =await [...isChecked];
-      await userVerification_Offline(id,true);
-      await setIsChecked(updatedCheckedState);
-      setRefresh(!refresh);
-
-      } 
   };
+
+  const handleVerification=async()=>{
+    const verifyBulk = await userBulkVerification(selectedUserId);
+    console.log("bulkverification---",verifyBulk);
+    if(verifyBulk.data){
+      if(verifyBulk.data.success === true ){
+        ToastAndroid.show('Verified', ToastAndroid.SHORT);
+        setRefresh(!refresh);
+      }
+    }
+    else{
+      console.log("bulkverification---offline---");
+      offlineBulkVerification(selectedUserId,true);
+      ToastAndroid.show('Offline Verified', ToastAndroid.SHORT);
+      setRefresh(!refresh);
+    }
+  }
 
  
 
@@ -109,7 +120,11 @@ const token = useSelector((state) => state.auth.token);
               <Card style={styles.cardStyle} key={index}>
                 <Card.Content style={styles.cardContentStyle}>
                   <Image style={styles.imageStyle} source={require("../../../images/user2.png")} />
-                  <Text style={styles.nameText}>{value.firstName.toUpperCase() +''+' '+value.lastName.toUpperCase()}</Text>
+                  <Text style={styles.nameText}>
+                    {(value?.firstName ? value.firstName.charAt(0).toUpperCase() + value.firstName.slice(1).toLowerCase() : '') + ' ' + 
+                    (value?.lastName ? value.lastName.charAt(0).toUpperCase() + value.lastName.slice(1).toLowerCase() : '')}
+                  </Text>
+
                   <View style={styles.textView}>
                     <Text style={styles.txt1}> {value.email}</Text>
                     <Text style={styles.txt1}> {value.mobile}</Text>
@@ -128,6 +143,10 @@ const token = useSelector((state) => state.auth.token);
               </Card>
           ))}
         </ScrollView>
+       {
+        selectedUserId.length > 0 &&
+        <Button onPress={handleVerification} mode="contained" style={styles.buttonStyle}>Verify</Button>
+       }
         <View style={styles.buttonView}></View>
       </View>
       }
@@ -204,4 +223,12 @@ const styles = StyleSheet.create({
   viewCheckBox: {
     alignSelf: "center",
   },
+  buttonStyle: {
+    marginTop:5,
+    marginBottom:10,
+     width:140,
+    backgroundColor:'#012E41',
+    alignSelf:'center',
+    color:'#ffff',
+  }
 });
