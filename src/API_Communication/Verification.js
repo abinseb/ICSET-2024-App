@@ -38,7 +38,8 @@ export const userBulkVerification =async(userIdArray)=>{
     const {token} =  await getToken();
     try{
         const respose = await axios.post(`${url}/api/volunteer/event-entry/attendee-verify/bulk`,{
-             "registrationIds":userIdArray
+             "registrationIds":userIdArray,
+             "eventId":event_id
         },{
             headers:{
                 Authorization:token

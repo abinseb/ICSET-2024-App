@@ -12,7 +12,7 @@
       ]
     ],
     "name": "ICTAK_Event",
-    "slug": "Event_app_2023",
+    "slug": "icset-2026",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/iconict.png",
@@ -37,14 +37,14 @@
         "foregroundImage": "./assets/ict.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.abinsebastian09.Event_app_2023"
+      "package": "org.ictkerala.Event_app_2026"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "f692b524-9e54-4c4c-89c7-473d442193e0"
+        "projectId": "36e9873c-f6c2-47bd-849b-fd31cc5a8db3"
       }
     }
   }

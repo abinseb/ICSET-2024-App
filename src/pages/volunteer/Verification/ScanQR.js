@@ -106,7 +106,7 @@ const offline_verified_count=async()=>{
             </TouchableOpacity>
             
             <View style={styles.workshopNameView}>
-                <Text style={styles.workshopText}>{'ICSET 2024'}</Text>
+                <Text style={styles.workshopText}>{'ICSET 2026'}</Text>
             </View>
                
             <View style={styles.buttonViewBox}>
@@ -127,8 +127,6 @@ const offline_verified_count=async()=>{
                 <TouchableOpacity onPress={navigationToVerify}>
                     <Text style={styles.txt2}>Click</Text>
                 </TouchableOpacity>
-               
-
             </View>
         </SafeAreaView>
     )

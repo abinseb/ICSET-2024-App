@@ -110,7 +110,7 @@ const ChooseEvent = ({navigation}) => {
         <Image style={styles.image_style} source={require('../../../images/LOGO_ICTAK-ENG-ALT-White-Text.png')} />
       </View>
       <View style={styles.dropDownListContainer}>
-        <Text style={styles.textTop}>Select the Zone</Text>
+        <Text style={styles.textTop}>Select the Event</Text>
         <SelectList
           setSelected={(val)=>handleSelectEvent(val)}
           data={eventList}

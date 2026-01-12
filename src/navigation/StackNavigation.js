@@ -18,7 +18,9 @@ import Input_data from "../pages/volunteer/Verification/Input_data";
 import Login from "../pages/volunteer/Login/LoginPage";
 import VolunteerProfile from "../pages/volunteer/Profile/Profile_v";
 import QRCodeScanner from "../pages/volunteer/Verification/QRCodeScanner";
+
 import ChooseEvent from "../pages/volunteer/LandingPage/ChooseEvent";
+import WorkshopScreen from "../pages/volunteer/Workshop/WorkshopScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +46,7 @@ export default function MyStack(){
                 <Stack.Screen name="TopTab" component={VerifyTopTabNavigation} />
                 <Stack.Screen name="Input Data" component={Input_data} options={{title:'Check'}}/>
                 <Stack.Screen name="Profile" component={VolunteerProfile} />
+                <Stack.Screen name="Workshop" component={WorkshopScreen} options={{ title: 'Workshop' }} />
                
             </Stack.Navigator>
              {/* )
